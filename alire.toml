@@ -1,0 +1,10 @@
+name = "servo_lib"
+description = "Platform-agnostic library for servo motors."
+version = "0.1.0-dev"
+
+authors = ["Karsten Lueth"]
+maintainers = ["Karsten Lueth <kl@kloc-consulting.de>"]
+maintainers-logins = ["KLOC-Karsten"]
+licenses = "BSD-3-Clause"
+website = ""
+tags = ["servo", "pwm", "embedded", "motor"]
