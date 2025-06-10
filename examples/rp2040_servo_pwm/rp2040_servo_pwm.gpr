@@ -1,0 +1,28 @@
+with "config/rp2040_servo_pwm_config.gpr";
+with "pico_bsp.gpr";
+project Rp2040_Servo_Pwm is
+    for Target use "arm-eabi";
+    for Runtime ("Ada") use "light-cortex-m0p";
+    package Linker is
+        for Switches ("Ada") use Pico_BSP.Linker_Switches;
+    end Linker;
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Rp2040_Servo_Pwm_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("rp2040_servo_pwm.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use Rp2040_Servo_Pwm_Config.Ada_Compiler_Switches;
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+end Rp2040_Servo_Pwm;

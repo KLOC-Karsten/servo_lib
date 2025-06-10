@@ -1,0 +1,19 @@
+name = "rp2040_servo_pwm"
+description = "Example using a GPIO as PWM output to drive a servo."
+version = "0.1.0-dev"
+
+authors = ["Karsten Lueth"]
+maintainers = ["Karsten Lueth <kl@kloc-consulting.de>"]
+maintainers-logins = ["KLOC-Karsten"]
+licenses = "BSD-3-Clause"
+website = ""
+tags = []
+
+executables = ["rp2040_servo_pwm"]
+
+[[depends-on]]
+pico_bsp = "^2.2.0"
+servo_lib = "*"
+
+[[pins]]
+servo_lib = {path = "../.."}
