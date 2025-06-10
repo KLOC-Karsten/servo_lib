@@ -13,8 +13,8 @@ with RP.GPIO;
 with Pico;
 
 procedure Rp2040_Servo_Pwm is
-   GP0 : constant PWM_Point := To_PWM (Pico.GP0);
-   LED : constant PWM_Point := To_PWM (Pico.LED);
+   GP18 : constant PWM_Point := To_PWM (Pico.GP18);
+   LED  : constant PWM_Point := To_PWM (Pico.LED);
 
    --  The PWM will count up at Frequency until it reaches Reload
    --  While the counter is less than Duty_Cycle, the output is High
@@ -29,24 +29,21 @@ begin
 
    Pico.LED.Configure
       (RP.GPIO.Output, RP.GPIO.Floating, RP.GPIO.PWM);
-   Pico.GP0.Configure
+   Pico.GP18.Configure
       (RP.GPIO.Output, RP.GPIO.Floating, RP.GPIO.PWM);
 
    Set_Frequency (LED.Slice, Frequency);
    Set_Interval (LED.Slice, Reload);
    Enable (LED.Slice);
 
-   Set_Frequency (GP0.Slice, Frequency);
-   Set_Interval (GP0.Slice, Reload);
-   Enable (GP0.Slice);
+   Set_Frequency (GP18.Slice, Frequency);
+   Set_Interval (GP18.Slice, Reload);
+   Enable (GP18.Slice);
+
+   Set_Duty_Cycle (GP18.Slice, GP18.Channel, Duty_Cycle);
+   Set_Duty_Cycle (LED.Slice, LED.Channel, Duty_Cycle);
 
    loop
-      Set_Duty_Cycle (GP0.Slice, GP0.Channel, Duty_Cycle);
-      Set_Duty_Cycle (LED.Slice, LED.Channel, Duty_Cycle);
-
-      --  Increase the duty cycle by 1% every 10ms
-      Duty_Cycle := (Duty_Cycle + (Reload / 100)) mod Reload;
-
       T := T + Milliseconds (10);
       RP.Device.Timer.Delay_Until (T);
    end loop;
