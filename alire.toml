@@ -8,3 +8,7 @@ maintainers-logins = ["KLOC-Karsten"]
 licenses = "BSD-3-Clause"
 website = ""
 tags = ["servo", "pwm", "embedded", "motor"]
+
+[[depends-on]]
+hal = "*"
+
