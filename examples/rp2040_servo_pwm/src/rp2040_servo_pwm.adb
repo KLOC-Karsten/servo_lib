@@ -18,10 +18,10 @@ procedure Rp2040_Servo_Pwm is
    --  While the counter is less than Duty_Cycle, the output is High
    Frequency  : constant RP.Hertz := 1_000_000;
    Reload     : constant Period := 20_000;
-   DC_Start   : constant Period := 1000; --  1.5 ms
-   DC_End     : constant Period := 2000; --  1.5 ms
+   DC_Start   : constant Period := 1000; -- 500; --  us (0 deg) 
+   DC_End     : constant Period := 2000; -- 2200; --  us (180 deg)
    Duty_Cycle : Period := DC_Start;
-   T          : constant Integer := 20;
+   T          : constant Integer := 10;
 
    procedure Set_Duty_Cycle (Duty_Cycle : Period) is
    begin
@@ -39,15 +39,19 @@ begin
    Set_Frequency (GP18.Slice, Frequency);
    Set_Interval (GP18.Slice, Reload);
    Enable (GP18.Slice);
+   
+   Set_Duty_Cycle (Duty_Cycle);
 
    loop
+      RP.Device.Timer.Delay_Milliseconds (1000);
       while Duty_Cycle <= DC_End loop
          Set_Duty_Cycle (Duty_Cycle);
          RP.Device.Timer.Delay_Milliseconds (T);
-         Duty_Cycle := Duty_Cycle + 10;
+         Duty_Cycle := Duty_Cycle + 5;
       end loop;
+      RP.Device.Timer.Delay_Milliseconds (1000);
       while Duty_Cycle >= DC_Start loop
-         Duty_Cycle := Duty_Cycle - 10;
+         Duty_Cycle := Duty_Cycle - 5;
          Set_Duty_Cycle (Duty_Cycle);
          RP.Device.Timer.Delay_Milliseconds (T);
       end loop;
